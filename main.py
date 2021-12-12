@@ -59,3 +59,4 @@ def load_data(filename: str) -> list[CasesData]:
 
 def monthly_data(cases: CasesData):
     for i in range(cases.date.month):
+        pass

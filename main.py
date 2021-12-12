@@ -9,6 +9,11 @@ with any changes, are expressly prohibited.
 
 This file is Copyright (c) 2021 Lemeng Dai, Arthur Iliescu, Jiaxin Li, Maisarah Zulkefli.
 """
+import datetime
+from dataclasses import dataclass
+import csv
+
+
 @dataclass
 class CasesData:
     """A bundle of data on covid-19 for each province.
@@ -94,10 +99,10 @@ def cases_per_month_province(input: list[CasesData], months: list[int], year: in
 
 
 def total_cases_per_years(input: list[CasesData], months: list[int], years: list[int], provinces: list[str]):
-    """Return the Provinces mapped to the years mapped to the total cases per month."""
-    dict_so_far_years = {}
+    """Return the Provinces mapped to the years mapped to the total cases per month.""
     province_cases_so_far = {}
     for province in provinces:
+        dict_so_far_years = {}
         for year in years:
             cases = cases_per_month_province(input, months, year, province)
             dict_so_far_years[year] = cases

@@ -9,12 +9,17 @@ class EmploymentData:
     """A bundle of data on employment statistics for each province.
 
     Instance Attributes:
-            -
+        - province: 'Ontario'
+        - date: datetime.date(2021, 1, 1)
+        - labour_force_statistics: 'Population'
+        - data_type: 'Persons'
+        - value: 10.2
 
 
     Representation Invariants:
-            -
-
+        - province_name in ['Alberta', 'Ontario', 'Quebec', 'British Columbia', 'Manitoba', 'New Bruswick', 'Saskatchewan', 'Prince Edward Island', 'Newfoundland and Labrador', 'Nova Scotia']
+        - data.year in [2020, 2021]
+        - date.month in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
     """
     province: str
     date: datetime.date

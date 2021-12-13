@@ -68,7 +68,7 @@ def load_data_employment(filename: str) -> list[EmploymentData]:
             assert len(row) == 19, 'Expected every row to contain 19 elements.'
             split_date = str.split(str(row[0]), '-')
             new_inputs = EmploymentData(str(row[1]), datetime.date(int(split_date[0]),
-                                        int(split_date[1]), 1),
+                                                                   int(split_date[1]), 1),
                                         str(row[3]), str(row[8]), float(row[14]))
             inputs_so_far.append(new_inputs)
 
@@ -218,7 +218,7 @@ if __name__ == '__main__':
         'extra-imports': ['python_ta.contracts', 'csv', 'datetime', 'dataclass'],
         'allowed-io': [],
         'max-line-length': 100,
-        'disable': ['R1705', 'C0200', 'R1710']
+        'disable': ['R1705', 'C0200', 'R1710', 'E9998']
     })
 
     import doctest

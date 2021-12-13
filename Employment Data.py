@@ -33,13 +33,14 @@ class EmploymentData:
 def return_data(filename: str) -> dict[str, dict[tuple[int, int], float]]:
     """A function to run and return the data for the filename.
     """
-    lst_provinces = ['Ontario', 'British Columbia', 'Alberta', 'Manitoba', 'Saskatchewan', 'Prince Edward Island',
-                     'New Brunswick', 'Nova Scotia', 'Quebec', 'Newfoundland and Labrador']
+    lst_provinces = ['Ontario', 'British Columbia', 'Alberta', 'Manitoba', 'Saskatchewan',
+                     'Prince Edward Island', 'New Brunswick', 'Nova Scotia', 'Quebec',
+                     'Newfoundland and Labrador']
 
     lst_years = [2020, 2021]
-    lst_months = [i for i in range(1, 13)]
-    input = load_data_employment(filename)
-    data = employment_rate_total(input, lst_months, lst_years, lst_provinces)
+    lst_months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+    inputs = load_data_employment(filename)
+    data = employment_rate_total(inputs, lst_months, lst_years, lst_provinces)
     return data
 
 
@@ -56,27 +57,29 @@ def load_data_employment(filename: str) -> list[EmploymentData]:
         for row in reader:
             assert len(row) == 19, 'Expected every row to contain 19 elements.'
             split_date = str.split(str(row[0]), '-')
-            new_inputs = EmploymentData(str(row[1]), datetime.date(int(split_date[0]), int(split_date[1]), 1),
+            new_inputs = EmploymentData(str(row[1]), datetime.date(int(split_date[0]),
+                                        int(split_date[1]), 1),
                                         str(row[3]), str(row[8]), float(row[14]))
             inputs_so_far.append(new_inputs)
 
     return inputs_so_far
 
 
-def population_num(input: list[EmploymentData], month: int, year: int, province: str) -> float:
+def population_num(inputs: list[EmploymentData], month: int, year: int, province: str) -> float:
     """Return the population in thousands of the province during set month and year.
 
     Precondition:
         - month in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
         - year in [2020, 2021]
-        - province in ['Ontario', 'British Columbia', 'Alberta', 'Manitoba', 'Saskatchewan', 'Prince Edward Island',
-                     'New Brunswick', 'Nova Scotia', 'Quebec', 'Newfoundland and Labrador']
+        - province in ['Ontario', 'British Columbia', 'Alberta', 'Manitoba', 'Saskatchewan',
+                        'Prince Edward Island','New Brunswick', 'Nova Scotia', 'Quebec',
+                        'Newfoundland and Labrador']
 
     >>> population_num(load_data_employment('employment_combined.csv'), 1, 2020, 'Alberta')
     3487.0
     """
 
-    for row in input:
+    for row in inputs:
         if year == 2021 and month != 12:
             if row.province == province and row.date.month == month and row.date.year == year and \
                     row.labour_force_statistics == 'Population' and row.data_type == 'Persons':
@@ -87,20 +90,21 @@ def population_num(input: list[EmploymentData], month: int, year: int, province:
                 return row.value
 
 
-def employment_num(input: list[EmploymentData], month: int, year: int, province: str) -> float:
+def employment_num(inputs: list[EmploymentData], month: int, year: int, province: str) -> float:
     """Return the number of people employed in thousands of the province during set month and year.
 
     Precondition:
         - month in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
         - year in [2020, 2021]
-        - province in ['Ontario', 'British Columbia', 'Alberta', 'Manitoba', 'Saskatchewan', 'Prince Edward Island',
-                     'New Brunswick', 'Nova Scotia', 'Quebec', 'Newfoundland and Labrador']
+        - province in ['Ontario', 'British Columbia', 'Alberta', 'Manitoba', 'Saskatchewan',
+                        'Prince Edward Island','New Brunswick', 'Nova Scotia', 'Quebec',
+                        'Newfoundland and Labrador']
 
     >>> employment_num(load_data_employment('employment_combined.csv'), 1, 2020, 'Alberta')
     2261.0
     """
 
-    for row in input:
+    for row in inputs:
         if year == 2021 and month != 12:
             if row.province == province and row.date.month == month and row.date.year == year and \
                     row.labour_force_statistics == 'Employment' and row.data_type == 'Persons':
@@ -111,14 +115,16 @@ def employment_num(input: list[EmploymentData], month: int, year: int, province:
                 return row.value
 
 
-def employment_rate_per_month(input: list[EmploymentData], month: int, year: int, province: str) -> float:
+def employment_rate_per_month(inputs: list[EmploymentData], month: int, year: int, province: str) \
+        -> any:
     """Return the employment rate for set month and year of the province.
 
     Precondition:
         - month in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
         - year in [2020, 2021]
-        - province in ['Ontario', 'British Columbia', 'Alberta', 'Manitoba', 'Saskatchewan', 'Prince Edward Island',
-                     'New Brunswick', 'Nova Scotia', 'Quebec', 'Newfoundland and Labrador']
+        - province in ['Ontario', 'British Columbia', 'Alberta', 'Manitoba', 'Saskatchewan',
+                        'Prince Edward Island','New Brunswick', 'Nova Scotia', 'Quebec',
+                        'Newfoundland and Labrador']
 
     >>> e = load_data_employment('employment_combined.csv')
     >>> employment_rate_per_month(e, 1, 2020, 'Alberta')
@@ -126,29 +132,30 @@ def employment_rate_per_month(input: list[EmploymentData], month: int, year: int
     """
 
     if year == 2021 and month != 12:
-        population = population_num(input, month, year, province)
-        employment = employment_num(input, month, year, province)
+        population = population_num(inputs, month, year, province)
+        employment = employment_num(inputs, month, year, province)
 
         rate = (employment / population) * 100
         return round(rate, 1)
 
     elif year == 2020:
-        population = population_num(input, month, year, province)
-        employment = employment_num(input, month, year, province)
+        population = population_num(inputs, month, year, province)
+        employment = employment_num(inputs, month, year, province)
 
         rate = (employment / population) * 100
         return round(rate, 1)
 
 
-def employment_rate_to_date(input: list[EmploymentData], months: list[int], years: list[int], province: str) \
-        -> dict[tuple[int, int], float]:
+def employment_rate_to_date(inputs: list[EmploymentData], months: list[int], years: list[int],
+                            province: str) -> dict[tuple[int, int], float]:
     """Return a dictionary mapping each date in months and years to the employment rate of province.
 
     Precondition:
         - month in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
         - year in [2020, 2021]
-        - province in ['Ontario', 'British Columbia', 'Alberta', 'Manitoba', 'Saskatchewan', 'Prince Edward Island',
-                     'New Brunswick', 'Nova Scotia', 'Quebec', 'Newfoundland and Labrador']
+        - province in ['Ontario', 'British Columbia', 'Alberta', 'Manitoba', 'Saskatchewan',
+                        'Prince Edward Island','New Brunswick', 'Nova Scotia', 'Quebec',
+                        'Newfoundland and Labrador']
 
     >>> e = load_data_employment('employment_combined.csv')
     >>> employment_rate_to_date(e, [1, 2], [2020, 2021], 'Alberta')
@@ -158,32 +165,34 @@ def employment_rate_to_date(input: list[EmploymentData], months: list[int], year
     for year in years:
         for month in months:
             if year == 2021 and month != 12:
-                rate = employment_rate_per_month(input, month, year, province)
+                rate = employment_rate_per_month(inputs, month, year, province)
                 dict_years_so_far[(year, month)] = rate
             elif year == 2020:
-                rate = employment_rate_per_month(input, month, year, province)
+                rate = employment_rate_per_month(inputs, month, year, province)
                 dict_years_so_far[(year, month)] = rate
     return dict_years_so_far
 
 
-def employment_rate_total(input: list[EmploymentData], months: list[int], years: list[int], provinces: list[str]) -> \
-        dict[str, dict[tuple[int, int], float]]:
-    """Return a dictionary mapping each province to another dictionary with date mapped to employment rate for
-    that province.
+def employment_rate_total(inputs: list[EmploymentData], months: list[int], years: list[int],
+                          provinces: list[str]) -> dict[str, dict[tuple[int, int], float]]:
+    """Return a dictionary mapping each province to another dictionary with date mapped to
+    employment rate for that province.
 
     Precondition:
         - month in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
         - year in [2020, 2021]
-        - province in ['Ontario', 'British Columbia', 'Alberta', 'Manitoba', 'Saskatchewan', 'Prince Edward Island',
-                     'New Brunswick', 'Nova Scotia', 'Quebec', 'Newfoundland and Labrador']
+        - province in ['Ontario', 'British Columbia', 'Alberta', 'Manitoba', 'Saskatchewan',
+                        'Prince Edward Island','New Brunswick', 'Nova Scotia', 'Quebec',
+                        'Newfoundland and Labrador']
 
     >>> e = load_data_employment('employment_combined.csv')
     >>> employment_rate_total(e, [1, 2], [2020, 2021], ['Alberta', 'Ontario'])
-    {'Alberta': {(2020, 1): 64.8, (2020, 2): 65.0, (2021, 1): 61.8, (2021, 2): 62.2}, 'Ontario': {(2020, 1): 61.6, (2020, 2): 61.6, (2021, 1): 57.7, (2021, 2): 58.5}}
+    {'Alberta': {(2020, 1): 64.8, (2020, 2): 65.0, (2021, 1): 61.8, (2021, 2): 62.2}, \
+'Ontario': {(2020, 1): 61.6, (2020, 2): 61.6, (2021, 1): 57.7, (2021, 2): 58.5}}
     """
     dict_so_far = {}
     for province in provinces:
-        rate = employment_rate_to_date(input, months, years, province)
+        rate = employment_rate_to_date(inputs, months, years, province)
         dict_so_far[province] = rate
     return dict_so_far
 
@@ -199,7 +208,7 @@ if __name__ == '__main__':
         'extra-imports': ['python_ta.contracts', 'csv', 'datetime', 'dataclass'],
         'allowed-io': [],
         'max-line-length': 100,
-        'disable': ['R1705', 'C0200']
+        'disable': ['R1705', 'C0200', 'R1710']
     })
 
     import doctest

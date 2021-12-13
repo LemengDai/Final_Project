@@ -61,18 +61,17 @@ def load_data(filename: str) -> list[CasesData]:
     # ACCUMULATOR inputs_so_far: The CasesData passed from the filename so far
     inputs_so_far = []
 
-    with open(filename) as f:
+    with open(filename, 'r', encoding='UTF-8') as f:
         reader = csv.reader(f, delimiter=',')
         next(reader)  # skip the header
 
         for row in reader:
-            assert len(row) == 40, 'Expected every row to contain 40 elements.'
-            split_date = str.split(str(row[3]), '-')
-            new_inputs = CasesData(int(row[0]), str(row[1]), datetime.date(int(split_date[0]),
-                                                                           int(split_date[1]),
-                                                                           int(split_date[2])),
-                                   int(row[5]),
-                                   int(row[8]), int(row[15]))
+            split_date = str.split(str(row[2]), '/')
+            new_inputs = CasesData(int(row[0]), str(row[1]), datetime.date(int(split_date[2]),
+                                                                           int(split_date[0]),
+                                                                           int(split_date[1])),
+                                   int(row[3]),
+                                   int(row[4]), int(row[5]))
 
             inputs_so_far.append(new_inputs)
 

@@ -9,7 +9,6 @@ whether as given or with any changes, are expressly prohibited.
 
 This file is Copyright (c) 2021 Lemeng Dai, Arthur Iliescu, Jiaxin Li, Maisarah Zulkefli.
 """
-import clean_data
 import employment_rate
 
 

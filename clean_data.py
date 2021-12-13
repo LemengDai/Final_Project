@@ -81,7 +81,7 @@ def load_data(filename: str) -> list[CasesData]:
 def cases_per_month(input: list[CasesData], month: int, year: int, province: str) -> int:
     """Return the monthly cases for the given province.
 
-        Precondition:
+    Precondition:
         - month in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
         - year in [2020, 2021]
         - province in ['Ontario', 'British Columbia', 'Alberta', 'Manitoba', 'Saskatchewan', 'Prince Edward Island',
@@ -98,7 +98,7 @@ def cases_per_month(input: list[CasesData], month: int, year: int, province: str
 def cases_per_month_province(input: list[CasesData], months: list[int], years: list[int], province: str):
     """Return a dictionary matching the month in a calendar year to the number of cases in that month for province.
     
-        Precondition:
+    Precondition:
         - month in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
         - year in [2020, 2021]
         - province in ['Ontario', 'British Columbia', 'Alberta', 'Manitoba', 'Saskatchewan', 'Prince Edward Island',
@@ -119,7 +119,7 @@ def cases_per_month_province(input: list[CasesData], months: list[int], years: l
 def total_cases_per_years(input: list[CasesData], months: list[int], years: list[int], provinces: list[str]):
     """Return the Provinces mapped to the years mapped to the total cases per month.
     
-        Precondition:
+    Precondition:
         - month in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
         - year in [2020, 2021]
         - province in ['Ontario', 'British Columbia', 'Alberta', 'Manitoba', 'Saskatchewan', 'Prince Edward Island',

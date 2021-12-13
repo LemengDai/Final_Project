@@ -25,7 +25,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_squared_error
 from plotly.subplots import make_subplots
 import plotly.graph_objects as go
-import clean_data
+import covid19_cases
 import employment_rate
 
 
@@ -110,7 +110,7 @@ def prediction_employment_rate(filename: str) -> dict[str, dict[tuple[int, int],
 
 def main() -> dict[str, tuple[float, float]]:
     """the main function that performs all the actions and executes all the other functions"""
-    covid_data = clean_data.return_data('covid19-download.csv')
+    covid_data = covid19_cases.return_data('covid19-download.csv')
     new_covid_data = pd.DataFrame(covid_data)
 
     difference_employment_rate = prediction_employment_rate('Employment combined.csv')
@@ -130,7 +130,7 @@ if __name__ == '__main__':
 
     python_ta.check_all(config={
         'extra-imports': ['python_ta.contracts', 'csv', 'datetime', 'dataclass', 'pandas',
-                          'sklearn.tree', 'clean_data', 'employment_rate',
+                          'sklearn.tree', 'covid19_cases', 'employment_rate',
                           'sklearn.model_selection', 'sklearn.metrics', 'plotly.subplots',
                           'plotly.graph_objects', 'sklearn.linear_model'],
         'allowed-io': [],

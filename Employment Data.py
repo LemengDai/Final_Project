@@ -26,7 +26,20 @@ class EmploymentData:
     labour_force_statistics: str
     data_type: str
     value: float
+        
+        
+def return_data(filename: str):
+    """A function to run and return the data for the filename.
+    """
+    lst_provinces = ['Ontario', 'British Columbia', 'Alberta', 'Manitoba', 'Saskatchewan', 'Prince Edward Island',
+                     'New Brunswick', 'Nova Scotia', 'Quebec', 'Newfoundland and Labrador']
 
+    lst_years = [2020, 2021]
+    lst_months = [i for i in range(1, 13)]
+    input = load_data(filename)
+    data = employment_rate_total(input, lst_months, lst_years, lst_provinces)
+    return data
+        
 
 def load_data_employment(filename: str) -> list[EmploymentData]:
     """Return a list containing the data for each entry in the file"""

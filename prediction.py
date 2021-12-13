@@ -1,45 +1,52 @@
-"""Comparison between Covid-19 Cases and Employment Rate"""
+"""CSC110 Fall 2020: Final Project
 
+Copyright and Usage Information
+===============================
+
+This file is provided solely for the personal and private use of Lemeng Dai, Arthur Iliescu,
+Jiaxin Li, Maisarah Zulkefli. Arthur All forms of distribution of this code,
+whether as given or with any changes, are expressly prohibited.
+
+This file is Copyright (c) 2021 Lemeng Dai, Arthur Iliescu, Jiaxin Li, Maisarah Zulkefli.
+"""
+import pandas as pd
+import plotly.express as px
+from sklearn.model_selection import train_test_split
+from sklearn import linear_model
 import clean_data
-import employmentdata
+import employment_rate
 
 
-def differences_employment_rate(filename: str, month: int, year: int, province: str) -> float:
-    """Return differences of employment rate between month in year and the month before"""
-    x = employmentdata.return_data(filename)
-    if province in x:
-        if (year, month) in x[province]:
-            employment_rate_now = x[province][(year, month)]
-            if month == 1 and year == 2020:
-                return employment_rate_now
-            else:
-                employment_rate_before = x[province][(year, month - 1)]
-                return employment_rate_now - employment_rate_before
+def transform_data(data: dict) -> pd.DataFrame:
+    """transform the dictionary mapping the sum of new cases each month to the differences
+    in employment rate between two consecutive months."""
+    data = pd.DataFrame(data)
+    return data
 
 
-def differences_covid_cases(filename: str, month: int, year: int, province: str) -> float:
-    """Return differences of employment rate between month in year and the month before"""
-    y = clean_data.return_data(filename)
-    if province in y:
-        if (year, month) in y[province]:
-            covid_cases_now = y[province][(year, month)]
-            if month == 1 and year == 2020:
-                return covid_cases_now
-            else:
-                covid_cases_before = y[province][(year, month - 1)]
-                return covid_cases_now - covid_cases_before
+def predict(data: pd.DataFrame) -> None:
+    """split data into training and testing sets to train the linear model, then test how the model
+    works."""
+    cases = data['cases']
+    employment_rate = data['employment rate']
+    x_train, x_test, y_train, y_test = train_test_split(cases, employment_rate, test_size=0.2)
+    model = linear_model.LinearRegression()
+    model.fit(x_train, y_train)
+    # y_pred = model.predict(x_test)
+    model.score(x_test, y_test)
 
 
-def prediction_employment_rate(month: int, year: int, filename_1: str, filename_2: str) -> dict[str, dict[int, int]]:
-    """Return a dictionary of difference number of covid cases mapping to differences of employment
-    rate"""
-    provinces = ['Ontario', 'British Columbia', 'Alberta', 'Manitoba', 'Saskatchewan', 'Prince Edward Island',
-                 'New Brunswick', 'Nova Scotia', 'Quebec', 'Newfoundland and Labrador']
-    prediction = {}
-    for province in provinces:
-        covid_to_employment = {}
-        covid = differences_covid_cases(filename_1, month, year, province)
-        employment = differences_employment_rate(filename_2, month, year, province)
-        covid_to_employment[covid] = employment
-        prediction[province] = covid_to_employment
-    return prediction
+def draw_diagram(data: pd.DataFrame) -> None:
+    """draw a scatter diagram to visualize the dataset with the number of covid 19 cases as
+    independent variable and employment rate as dependent variable."""
+    fig = px.scatter(data, x='cases', y='employment rate')
+    fig.show()
+
+
+if __name__ == '__main__':
+    """create data frame for graphing."""
+    covid_data = clean_data.return_data('covid19-download.csv')
+    new_covid_data = transform_data(covid_data)
+    employment_data = employment_rate.return_data('Employment combined.csv')
+    new_employment_data = transform_data(employment_data)
+    # I need for each month dict[covid_data: difference of employment_rate]

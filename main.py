@@ -137,7 +137,7 @@ def cases_per_month_province(input: list[CasesData], months: list[int], year: in
 
 
 def total_cases_per_years(input: list[CasesData], months: list[int], years: list[int], provinces: list[str]):
-    """Return the Provinces mapped to the years mapped to the total cases per month.""
+    """Return the Provinces mapped to the years mapped to the total cases per month."""
     province_cases_so_far = {}
     for province in provinces:
         dict_so_far_years = {}
@@ -148,7 +148,9 @@ def total_cases_per_years(input: list[CasesData], months: list[int], years: list
         province_cases_so_far[province] = dict_so_far_years
     return province_cases_so_far
 
-def population_num(input: list[EmploymentData], month: int, year: int, province: str):
+def population_num(input: list[EmploymentData], month: int, year: int, province: str) -> float:
+    """Return the population in thousands of the province during set month and year."""
+
     for row in input:
         if year == 2021 and month != 12:
             if row.province == province and row.date.month == month and row.date.year == year and \
@@ -160,7 +162,9 @@ def population_num(input: list[EmploymentData], month: int, year: int, province:
                 return row.value
 
 
-def employment_num(input: list[EmploymentData], month: int, year: int, province: str):
+def employment_num(input: list[EmploymentData], month: int, year: int, province: str) -> float:
+    """Return the number of people employed in thousands of the province during set month and year."""
+
     for row in input:
         if year == 2021 and month != 12:
             if row.province == province and row.date.month == month and row.date.year == year and \
@@ -173,7 +177,8 @@ def employment_num(input: list[EmploymentData], month: int, year: int, province:
 
 
 def employment_rate_per_month(input: list[EmploymentData], month: int, year: int, province: str) -> float:
-    """Return the employment rate"""
+    """Return the employment rate for set month and year of the province."""
+
     if year == 2021 and month != 12:
         population = population_num(input, month, year, province)
         employment = employment_num(input, month, year, province)
@@ -188,20 +193,10 @@ def employment_rate_per_month(input: list[EmploymentData], month: int, year: int
         rate = (employment / population) * 100
         return round(rate, 1)
 
-
-def get_employment_rate(input: list[EmploymentData], month: int, year: int, province: str):
-    for row in input:
-        if year == 2021 and month!= 12:
-            if row.province == province and row.date.month == month and row.date.year == year and \
-                    row.labour_force_statistics == 'Employment rate' and row.data_type == 'Percentage':
-                        return row.value
-        elif year == 2020:
-            if row.province == province and row.date.month == month and row.date.year == year and \
-                    row.labour_force_statistics == 'Employment rate' and row.data_type == 'Percentage':
-                return row.value
-
-
-def employment_rate_to_date(input: list[EmploymentData], months: list[int], years: list[int], province: str):
+    
+def employment_rate_to_date(input: list[EmploymentData], months: list[int], years: list[int], province: str)\
+        -> dict[tuple[int, int], float]:
+    """Return a dictionary mapping each date in months and years to the employment rate of province."""
     dict_years_so_far = {}
     for year in years:
         for month in months:
@@ -210,11 +205,13 @@ def employment_rate_to_date(input: list[EmploymentData], months: list[int], year
     return dict_years_so_far
 
 
-def employment_rate_total(input: list[EmploymentData], months: list[int], years: list[int], provinces: list[str]):
+def employment_rate_total(input: list[EmploymentData], months: list[int], years: list[int], provinces: list[str]) -> \
+        dict[str, dict[tuple[int, int], float]]:
+    """Return a dictionary mapping each province to another dictionary with date mapped to employment rate for
+    that province."""
     dict_so_far = {}
     for province in provinces:
         rate = employment_rate_to_date(input, months, years, province)
         dict_so_far[province] = rate
     return dict_so_far
-
 

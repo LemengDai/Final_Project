@@ -36,7 +36,7 @@ def return_data(filename: str):
 
     lst_years = [2020, 2021]
     lst_months = [i for i in range(1, 13)]
-    input = load_data(filename)
+    input = load_data_employment(filename)
     data = employment_rate_total(input, lst_months, lst_years, lst_provinces)
     return data
         

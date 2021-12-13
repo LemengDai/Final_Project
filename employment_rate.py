@@ -1,4 +1,15 @@
-""" Employment Data file"""
+"""CSC110 Fall 2020: Final Project
+
+Copyright and Usage Information
+===============================
+
+This file is provided solely for the personal and private use of Lemeng Dai, Arthur Iliescu,
+Jiaxin Li, Maisarah Zulkefli. Arthur All forms of distribution of this code,
+whether as given or with any changes, are expressly prohibited.
+
+This file is Copyright (c) 2021 Lemeng Dai, Arthur Iliescu, Jiaxin Li, Maisarah Zulkefli.
+Employment Data file
+"""
 import csv
 from dataclasses import dataclass
 import datetime
@@ -14,7 +25,6 @@ class EmploymentData:
         - labour_force_statistics: 'Population'
         - data_type: 'Persons'
         - value: 10.2
-
 
     Representation Invariants:
         - province_name in ['Alberta', 'Ontario', 'Quebec', 'British Columbia', 'Manitoba',

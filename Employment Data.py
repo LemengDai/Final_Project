@@ -87,21 +87,7 @@ def employment_rate_per_month(input: list[EmploymentData], month: int, year: int
 
         rate = (employment / population) * 100
         return round(rate, 1)
-
-
-# def get_employment_rate(input: list[EmploymentData], month: int, year: int, province: str):
-#     """Return the """
-#
-#     for row in input:
-#         if year == 2021 and month!= 12:
-#             if row.province == province and row.date.month == month and row.date.year == year and \
-#                     row.labour_force_statistics == 'Employment rate' and row.data_type == 'Percentage':
-#                         return row.value
-#         elif year == 2020:
-#             if row.province == province and row.date.month == month and row.date.year == year and \
-#                     row.labour_force_statistics == 'Employment rate' and row.data_type == 'Percentage':
-#                 return row.value
-
+    
 
 def employment_rate_to_date(input: list[EmploymentData], months: list[int], years: list[int], province: str)\
         -> dict[tuple[int, int], float]:

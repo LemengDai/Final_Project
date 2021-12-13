@@ -12,4 +12,5 @@ This file is Copyright (c) 2021 Lemeng Dai, Arthur Iliescu, Jiaxin Li, Maisarah 
 import prediction
 
 if __name__ == '__main__':
+    visualization.main()
     prediction.main()

@@ -17,7 +17,9 @@ class EmploymentData:
 
 
     Representation Invariants:
-        - province_name in ['Alberta', 'Ontario', 'Quebec', 'British Columbia', 'Manitoba', 'New Bruswick', 'Saskatchewan', 'Prince Edward Island', 'Newfoundland and Labrador', 'Nova Scotia']
+        - province_name in ['Alberta', 'Ontario', 'Quebec', 'British Columbia', 'Manitoba',
+                            'New Bruswick', 'Saskatchewan', 'Prince Edward Island',
+                            'Newfoundland and Labrador', 'Nova Scotia']
         - data.year in [2020, 2021]
         - date.month in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
     """

@@ -17,6 +17,19 @@ import csv
 @dataclass
 class CasesData:
     """A bundle of data on covid-19 for each province.
+    Instance Attributes:
+        - province_id: 35
+        - province_name: 'Ontario'
+        - date: datetime.date(2020, 1, 2)
+        - number_confirmed: 12
+        - number_total: 20
+        - number_today: int
+        
+    Representation Invariants:
+        - province_id in [35, 59, 24, 48, 43, 17, 61, 62, 12, 60, 99, 46, 47, 11]
+        - province_name in ['Alberta', 'Ontario', 'Quebec', 'British Columbia', 'Manitoba', 'New Bruswick', 'Saskatchewan', 'Prince Edward Island', 'Newfoundland and Labrador', 'Nova Scotia']
+        - data.year in [2020, 2021]
+        - date.month in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
     """
     province_id: int
     province_name: str

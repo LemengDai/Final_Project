@@ -19,7 +19,8 @@ and employment rate for each province. Perform the model on the 20% testing data
 the actual data to get the score of how well the model fits, as well as mean squared error.
 """
 import pandas as pd
-import sklearn
+from sklearn.tree import DecisionTreeRegressor
+# from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_squared_error
 from plotly.subplots import make_subplots
@@ -36,8 +37,8 @@ def predict(data: pd.DataFrame) -> (float, float):
     x_train, x_test, y_train, y_test = train_test_split(cases, employment, test_size=0.2)
     dic = {}
     for i in range(1, 10):
-        model = sklearn.tree.DecisionTreeRegressor(max_depth=i)  # non-linear regression
-        # model = sklearn.linear_model.LinearRegression() linear regression
+        model = DecisionTreeRegressor(max_depth=i)  # non-linear regression
+        # model = LinearRegression()  # linear regression
         model.fit(x_train, y_train)
         y_pred = model.predict(x_test)
         mse = mean_squared_error(y_test, y_pred)
@@ -129,8 +130,9 @@ if __name__ == '__main__':
 
     python_ta.check_all(config={
         'extra-imports': ['python_ta.contracts', 'csv', 'datetime', 'dataclass', 'pandas',
-                          'sklearn', 'clean_data', 'employment_rate', 'sklearn.model_selection',
-                          'sklearn.metrics', 'plotly.subplots', 'plotly.graph_objects'],
+                          'sklearn.tree', 'clean_data', 'employment_rate',
+                          'sklearn.model_selection', 'sklearn.metrics', 'plotly.subplots',
+                          'plotly.graph_objects', 'sklearn.linear_model'],
         'allowed-io': [],
         'max-line-length': 100,
         'disable': ['R1705', 'C0200', 'R1710']

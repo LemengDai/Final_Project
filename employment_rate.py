@@ -1,15 +1,4 @@
-"""CSC110 Fall 2020: Final Project
-
-Copyright and Usage Information
-===============================
-
-This file is provided solely for the personal and private use of Lemeng Dai, Arthur Iliescu,
-Jiaxin Li, Maisarah Zulkefli. Arthur All forms of distribution of this code,
-whether as given or with any changes, are expressly prohibited.
-
-This file is Copyright (c) 2021 Lemeng Dai, Arthur Iliescu, Jiaxin Li, Maisarah Zulkefli.
-Employment Data file
-"""
+""" Employment Data file"""
 import csv
 from dataclasses import dataclass
 import datetime
@@ -25,6 +14,7 @@ class EmploymentData:
         - labour_force_statistics: 'Population'
         - data_type: 'Persons'
         - value: 10.2
+
 
     Representation Invariants:
         - province_name in ['Alberta', 'Ontario', 'Quebec', 'British Columbia', 'Manitoba',
@@ -68,7 +58,7 @@ def load_data_employment(filename: str) -> list[EmploymentData]:
             assert len(row) == 19, 'Expected every row to contain 19 elements.'
             split_date = str.split(str(row[0]), '-')
             new_inputs = EmploymentData(str(row[1]), datetime.date(int(split_date[0]),
-                                                                   int(split_date[1]), 1),
+                                        int(split_date[1]), 1),
                                         str(row[3]), str(row[8]), float(row[14]))
             inputs_so_far.append(new_inputs)
 
@@ -161,8 +151,8 @@ def employment_rate_to_date(inputs: list[EmploymentData], months: list[int], yea
     """Return a dictionary mapping each date in months and years to the employment rate of province.
 
     Precondition:
-        - month in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
-        - year in [2020, 2021]
+        - all(month in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] for month in months)
+        - all(year in [2020, 2021] for year in years)
         - province in ['Ontario', 'British Columbia', 'Alberta', 'Manitoba', 'Saskatchewan',
                         'Prince Edward Island','New Brunswick', 'Nova Scotia', 'Quebec',
                         'Newfoundland and Labrador']
@@ -189,11 +179,11 @@ def employment_rate_total(inputs: list[EmploymentData], months: list[int], years
     employment rate for that province.
 
     Precondition:
-        - month in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
-        - year in [2020, 2021]
-        - province in ['Ontario', 'British Columbia', 'Alberta', 'Manitoba', 'Saskatchewan',
+        - all(month in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] for month in months)
+        - all(year in [2020, 2021] for year in years)
+        - all(x in ['Ontario', 'British Columbia', 'Alberta', 'Manitoba', 'Saskatchewan',
                         'Prince Edward Island','New Brunswick', 'Nova Scotia', 'Quebec',
-                        'Newfoundland and Labrador']
+                        'Newfoundland and Labrador'] for x in provinces)
 
     >>> e = load_data_employment('employment_combined.csv')
     >>> employment_rate_total(e, [1, 2], [2020, 2021], ['Alberta', 'Ontario'])
@@ -205,6 +195,40 @@ def employment_rate_total(inputs: list[EmploymentData], months: list[int], years
         rate = employment_rate_to_date(inputs, months, years, province)
         dict_so_far[province] = rate
     return dict_so_far
+
+
+def employment_rate_month_province(inputs: list[EmploymentData], month: int, year: int,
+                                   provinces: list[str]) -> dict[str, list]:
+    """Return a dictionary mapping province to its employment rate in the given month of the given
+    year.
+
+    Precondition:
+        - month in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+        - year in [2020, 2021]
+        - all(x in ['Ontario', 'British Columbia', 'Alberta', 'Manitoba', 'Saskatchewan',
+                        'Prince Edward Island','New Brunswick', 'Nova Scotia', 'Quebec',
+                        'Newfoundland and Labrador'] for x in provinces)
+    """
+    rate_so_far = []
+    for province in provinces:
+        rate = employment_rate_per_month(inputs, month, year, province)
+        rate_so_far = rate_so_far + [rate]
+    return {'provinces': provinces, 'employment_rate': rate_so_far}
+
+
+def return_emp_for_map(month: int, year: int) -> dict[str, list]:
+    """Return a dictionary mapping province to its employment rate in the given month of the given
+    year.
+
+    Precondition:
+        - month in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+        - year in [2020, 2021]
+    """
+    e = load_data_employment('employment_combined.csv')
+    provinces = ['Ontario', 'British Columbia', 'Alberta', 'Manitoba', 'Saskatchewan',
+                 'Prince Edward Island', 'New Brunswick', 'Nova Scotia', 'Quebec',
+                 'Newfoundland and Labrador']
+    return employment_rate_month_province(e, month, year, provinces)
 
 
 if __name__ == '__main__':

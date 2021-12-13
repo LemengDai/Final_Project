@@ -9,15 +9,16 @@ whether as given or with any changes, are expressly prohibited.
 
 This file is Copyright (c) 2021 Lemeng Dai, Arthur Iliescu, Jiaxin Li, Maisarah Zulkefli.
 """
-import covid_19_cases as cases
-import employment_rate as employment
+import json
+from urllib.request import urlopen
 import pandas as pd
 import plotly.express as px
-from urllib.request import urlopen
-import json
+import employment_rate as employment
+import covid_19_cases as cases
 
 
-with urlopen('https://raw.githubusercontent.com/LemengDai/Final_Project/main/Canada2.json') as response:
+with urlopen('https://raw.githubusercontent.com/LemengDai/Final_Project/main/Canada2.json') as \
+        response:
     provinces = json.load(response)
 
 
@@ -87,5 +88,24 @@ def choropleth_map_cases_and_emp(month: int, year: int) -> None:
     fig.update_geos(fitbounds="locations", visible=False)
     fig.show()
 
+
+if __name__ == '__main__':
+    # When you are ready to check your work with python_ta, uncomment the following lines.
+    # (Delete the "#" and space before each line.)
+    # IMPORTANT: keep this code indented inside the "if __name__ == '__main__'" block
+    # Leave this code uncommented when you submit your files.
+    import python_ta
+
+    python_ta.check_all(config={
+        'extra-imports': ['python_ta.contracts', 'json', 'plotly.express', 'pandas',
+                          'covid_19_cases', 'employment_rate', 'urllib.request'],
+        'allowed-io': [],
+        'max-line-length': 100,
+        'disable': ['R1705', 'C0200', 'E9997']
+    })
+
+    import doctest
+
+    doctest.testmod()
 
 # end

@@ -14,7 +14,7 @@ from urllib.request import urlopen
 import pandas as pd
 import plotly.express as px
 import employment_rate as employment
-import covid_19_cases as cases
+import covid19_cases as cases
 
 
 with urlopen('https://raw.githubusercontent.com/LemengDai/Final_Project/main/Canada2.json') as \

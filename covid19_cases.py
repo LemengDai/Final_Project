@@ -265,6 +265,14 @@ def average_rate_per_month(inputs: list[CasesData], month: int, year: int, provi
         - province in ['Ontario', 'British Columbia', 'Alberta', 'Manitoba', 'Saskatchewan',
         'Prince Edward Island', 'New Brunswick', 'Nova Scotia', 'Quebec',
         'Newfoundland and Labrador']
+
+    >>> method = [CasesData(province_id=35, province_name='Alberta', \
+    date=datetime.date(2020, 1, 31), number_confirmed=40, number_total=40, number_today=40, \
+    number_tests=25, rate_total=2.0), CasesData(province_id=35, province_name='Alberta', \
+    date=datetime.date(2020, 1, 10), number_confirmed=20, number_total=20, number_today=20, \
+    number_tests=15, rate_total=4.0)]
+    >>> average_rate_per_month(method, 1, 2020, 'Alberta')
+    3.0
     """
     rate_so_far = 0
     length = 0
@@ -287,6 +295,14 @@ def rate_per_month_province(inputs: list[CasesData], months: list[int], years: l
         - province in ['Ontario', 'British Columbia', 'Alberta', 'Manitoba', 'Saskatchewan',
         'Prince Edward Island', 'New Brunswick', 'Nova Scotia', 'Quebec',
         'Newfoundland and Labrador']
+
+    >>> method = [CasesData(province_id=35, province_name='Alberta', \
+    date=datetime.date(2020, 1, 31), number_confirmed=40, number_total=40, number_today=40, \
+    number_tests=25, rate_total=2.0), CasesData(province_id=35, province_name='Alberta', \
+    date=datetime.date(2020, 2, 10), number_confirmed=20, number_total=20, number_today=20, \
+    number_tests=15, rate_total=4.0)]
+    >>> rate_per_month_province(method, [1, 2], [2020], 'Alberta')
+    {(2020, 1): 2.0, (2020, 2): 4.0}
     """
     dict_so_far = {}
     for year in years:
@@ -310,6 +326,14 @@ def rate_per_years(inputs: list[CasesData], months: list[int], years: list[int],
         - all(province in ['Ontario', 'British Columbia', 'Alberta', 'Manitoba', 'Saskatchewan',
         'Prince Edward Island', 'New Brunswick', 'Nova Scotia', 'Quebec',
         'Newfoundland and Labrador'] for province in provinces)
+
+    >>> method = [CasesData(province_id=35, province_name='Alberta', \
+    date=datetime.date(2020, 1, 31), number_confirmed=40, number_total=40, number_today=40, \
+    number_tests=25, rate_total=2.0), CasesData(province_id=35, province_name='Ontario', \
+    date=datetime.date(2020, 1, 10), number_confirmed=20, number_total=20, number_today=20, \
+    number_tests=15, rate_total=4.0)]
+    >>> rate_per_years(method, [1], [2020], ['Alberta', 'Ontario'])
+    {'Alberta': {(2020, 1): 2.0}, 'Ontario': {(2020, 1): 4.0}}
     """
     province_cases_so_far = {}
     for province in provinces:
@@ -329,6 +353,14 @@ def cases_map_provinces(inputs: list[CasesData], month: int, year: int, province
         - all(x in ['Ontario', 'British Columbia', 'Alberta', 'Manitoba', 'Saskatchewan',
                         'Prince Edward Island','New Brunswick', 'Nova Scotia', 'Quebec',
                         'Newfoundland and Labrador'] for x in provinces)
+
+    >>> method = [CasesData(province_id=35, province_name='Alberta', \
+    date=datetime.date(2020, 1, 31), number_confirmed=40, number_total=40, number_today=40, \
+    number_tests=25, rate_total=2.0), CasesData(province_id=35, province_name='Ontario', \
+    date=datetime.date(2020, 1, 10), number_confirmed=20, number_total=20, number_today=20, \
+    number_tests=15, rate_total=4.0)]
+    >>> cases_map_provinces(method, 1, 2020, ['Alberta', 'Ontario'])
+    {'provinces': ['Alberta', 'Ontario'], 'cases': [40, 20]}
     """
     cases_each = []
     for province in provinces:

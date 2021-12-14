@@ -36,8 +36,9 @@ def choropleth_map_emp(month: int, year: int) -> None:
                         color='employment_rate', range_color=(0, 70),
                         featureidkey='properties.NAME', color_continuous_scale='rdylbu',
                         labels={'employment_rate': 'employment rate(%)'})
-    fig.update_layout(margin={"r": 0, "t": 0, "l": 0, "b": 0})
     fig.update_geos(fitbounds="locations", visible=False)
+    fig.update_layout(title_text='The employment rate in ' + str(year)
+                                 + ' - ' + str(month) + ' in Canada')
     fig.show()
 
 
@@ -54,10 +55,32 @@ def choropleth_map_cases(month: int, year: int) -> None:
     fig = px.choropleth(df, geojson=provinces, locations='provinces',
                         color='cases', range_color=(0, 99999),
                         featureidkey='properties.NAME', color_continuous_scale='burgyl',
-                        labels={'cases': 'Covid-19 cases(month)'})
-    fig.update_layout(margin={"r": 0, "t": 0, "l": 0, "b": 0})
+                        labels={'cases': 'Covid-19 cases(people/month)'})
     fig.update_geos(fitbounds="locations", visible=False)
+    fig.update_layout(title_text='The number of new COVID-19 cases in ' + str(year)
+                                 + ' - ' + str(month) + ' in Canada')
     fig.show()
+
+
+def main() -> any:
+    """The main function that performs actions and executes other functions"""
+
+    # Example Attempts
+    # 1: What is the employment rate and number of new COVID-19 cases in January 2020 in Canada?
+    choropleth_map_emp(1, 2020)
+    choropleth_map_cases(1, 2020)
+    # 2: What is the employment rate and number of new COVID-19 cases in July 2020 in Canada?
+    choropleth_map_emp(7, 2020)
+    choropleth_map_cases(7, 2020)
+    # 3: What is the employment rate and number of new COVID-19 cases in December 2020 in Canada?
+    choropleth_map_emp(12, 2020)
+    choropleth_map_cases(12, 2020)
+    # 4: What is the employment rate and number of new COVID-19 cases in June 2021 in Canada?
+    choropleth_map_emp(6, 2021)
+    choropleth_map_cases(6, 2021)
+    # 4: What is the employment rate and number of new COVID-19 cases in November 2021 in Canada?
+    choropleth_map_emp(11, 2021)
+    choropleth_map_cases(11, 2021)
 
 
 if __name__ == '__main__':
@@ -69,7 +92,7 @@ if __name__ == '__main__':
 
     python_ta.check_all(config={
         'extra-imports': ['python_ta.contracts', 'json', 'plotly.express', 'pandas',
-                          'covid_19_cases', 'employment_rate', 'urllib.request'],
+                          'covid19_cases', 'employment_rate', 'urllib.request'],
         'allowed-io': [],
         'max-line-length': 100,
         'disable': ['R1705', 'C0200', 'E9997']

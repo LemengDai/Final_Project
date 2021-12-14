@@ -77,14 +77,16 @@ def load_data(filename: str) -> list[CasesData]:
         next(reader)  # skip the header
 
         for row in reader:
-            assert len(row) == 40, 'Expected every row to contain 40 elements.'
-            split_date = str.split(str(row[3]), '-')
-            new_inputs = CasesData(str(row[1]), datetime.date(int(split_date[0]),
-                                                              int(split_date[1]),
-                                                              int(split_date[2])), int(row[5]),
-                                   int(row[8]), int(row[15]), int(row[10]), float(row[17]))
+            if row[17] != '':
+                assert len(row) == 40, 'Expected every row to contain 40 elements.'
+                split_date = str.split(str(row[3]), '-')
+                new_inputs = CasesData(str(row[1]), datetime.date(int(split_date[0]), 
+                                                                  int(split_date[1]), 
+                                                                  int(split_date[2])), 
+                                       int(row[5]), int(row[8]), int(row[15]), int(row[10]), 
+                                       float(row[17]))
 
-            inputs_so_far.append(new_inputs)
+                inputs_so_far.append(new_inputs)
 
     return inputs_so_far
 

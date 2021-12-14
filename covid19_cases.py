@@ -181,7 +181,7 @@ def total_tests_per_month(inputs: list[CasesData], month: int, year: int, provin
         - province in ['Alberta', 'Ontario', 'Quebec', 'British Columbia', 'Manitoba', \
                             'New Brunswick', 'Saskatchewan', 'Prince Edward Island', \
                             'Newfoundland and Labrador', 'Nova Scotia']
-    >>> method = [CasesData(province_name='Ontario', \
+    >>> method = [CasesData(province_id=35, province_name='Ontario', \
     date=datetime.date(2020, 1, 31), number_confirmed=5, number_total=5, number_today=5, \
     number_tests=2, rate_total=0.0)]
     >>> total_tests_per_month(method, 1, 2020, 'Ontario')
@@ -189,8 +189,9 @@ def total_tests_per_month(inputs: list[CasesData], month: int, year: int, provin
     """
     tests_so_far = 0
     for row in inputs:
-        if row.province_name == province and row.date.month == month and row.date.year == year:
-            tests_so_far = tests_so_far + row.number_tests
+        if row.province_name == province and row.date.month == month and row.date.year == year and \
+                tests_so_far < row.number_tests:
+            tests_so_far = row.number_tests
 
     return tests_so_far
 

@@ -22,15 +22,6 @@ with urlopen('https://raw.githubusercontent.com/LemengDai/Final_Project/main/Can
     provinces = json.load(response)
 
 
-def return_province_emprate_cases(month: int, year: int) -> dict[str, list]:
-    """Return a dictionary mapped provinces, employment rate, and number of COVID-19 cases to a
-    list."""
-    lst1 = employment.return_emp_for_map(month, year)
-    case = cases.return_case_for_map(month, year)['cases']
-    lst1['cases'] = case
-    return lst1
-
-
 def choropleth_map_emp(month: int, year: int) -> None:
     """Show a choropleth map containing information about the employment rate in provinces of Canada
     in the given month of the given year in explorer.
@@ -64,26 +55,6 @@ def choropleth_map_cases(month: int, year: int) -> None:
                         color='cases', range_color=(0, 99999),
                         featureidkey='properties.NAME', color_continuous_scale='burgyl',
                         labels={'cases': 'Covid-19 cases(month)'})
-    fig.update_layout(margin={"r": 0, "t": 0, "l": 0, "b": 0})
-    fig.update_geos(fitbounds="locations", visible=False)
-    fig.show()
-
-
-def choropleth_map_cases_and_emp(month: int, year: int) -> None:
-    """Show a choropleth map containing information about the employment rate and the number of
-    covid-19 cases in provinces of Canada in the given month of the given year in explorer.
-    Note that month cannot be 12 when year is 2021.
-
-    Precondition:
-        - month in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
-        - year in [2020, 2021]
-    """
-    df = pd.DataFrame(return_province_emprate_cases(month, year))
-    fig = px.choropleth(df, geojson=provinces, locations='provinces',
-                        color='cases', range_color=(0, 99999),
-                        featureidkey='properties.NAME', color_continuous_scale='burgyl',
-                        labels={'cases': 'Covid-19 cases(month)',
-                                'employment_rate': 'employment rate(%)'})
     fig.update_layout(margin={"r": 0, "t": 0, "l": 0, "b": 0})
     fig.update_geos(fitbounds="locations", visible=False)
     fig.show()

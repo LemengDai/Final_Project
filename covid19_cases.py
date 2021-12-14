@@ -22,7 +22,7 @@ class CasesData:
         - number_today: the number of covid-19 cases for the date
         - rate_total: case rate per one hundred thousand population,"Calculated by the
             total number of cases for a province divided by the population of that 
-            province [(numtotal/population) x100,000].
+            province [(number_total/population) x100,000].
         
     Representation Invariants:
         - province_id in [35, 59, 24, 48, 43, 17, 61, 62, 12, 60, 99, 46, 47, 11]

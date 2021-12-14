@@ -210,8 +210,8 @@ def total_tests_per_month(inputs: list[CasesData], month: int, year: int, provin
     return tests_so_far
 
 
-def tests_per_month_province(inputs: list[CasesData], months: list[int], years: list[int],
-                             province: str) -> dict[tuple[int, int], int]:
+def per_month_province_test(inputs: list[CasesData], months: list[int], years: list[int],
+                            province: str) -> dict[tuple[int, int], int]:
     """Return the date of each month in months for each year in years mapped to the total number
     of tests for that month.
     Preconditions:
@@ -225,7 +225,7 @@ def tests_per_month_province(inputs: list[CasesData], months: list[int], years: 
     number_tests=20, rate_total=0.0)]
     >>> lst_months = [1]
     >>> lst_years = [2020]
-    >>> tests_per_month_province(method, lst_months, lst_years, 'Ontario')
+    >>> per_month_province_test(method, lst_months, lst_years, 'Ontario')
     {(2020, 1): 20}
     """
     dict_so_far = {}
@@ -262,7 +262,7 @@ def total_tests_per_years(inputs: list[CasesData], months: list[int], years: lis
     """
     province_cases_so_far = {}
     for province in provinces:
-        a = tests_per_month_province(inputs, months, years, province)
+        a = per_month_province_test(inputs, months, years, province)
         province_cases_so_far[province] = a
     return province_cases_so_far
 

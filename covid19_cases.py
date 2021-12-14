@@ -290,7 +290,10 @@ def average_rate_per_month(inputs: list[CasesData], month: int, year: int, provi
             rate_so_far = rate_so_far + row.rate_total
             length = length + 1
 
-    return rate_so_far / length
+     if length == 0:
+        return 0
+    else:
+        return rate_so_far / length
 
 
 def rate_per_month_province(inputs: list[CasesData], months: list[int], years: list[int],

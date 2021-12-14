@@ -19,11 +19,12 @@ class EmploymentData:
     """A bundle of data on employment statistics for each province.
 
     Instance Attributes:
-        - province: 'Ontario'
-        - date: datetime.date(2021, 1, 1)
-        - labour_force_statistics: 'Population'
-        - data_type: 'Persons'
-        - value: 10.2
+        - province: the name of the province
+        - date: the year and month of the data.
+        - labour_force_statistics: a string describing which kind of data is recorded.
+        - data_type: a string describing whether the value is given in the numbner of people
+            or the percentage.
+        - value: the float that gives the value.
 
 
     Representation Invariants:

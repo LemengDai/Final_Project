@@ -32,9 +32,9 @@ import employment_rate
 def predict(data: pd.DataFrame) -> (float, float):
     """split data into training and testing sets to train the nonlinear model, then test how the
     model works."""
-    cases = data['cases'].values.reshape(-1, 1)
-    employment = data['employment rate'].values.reshape(-1, 1)
-    x_train, x_test, y_train, y_test = train_test_split(cases, employment, test_size=0.2)
+    independent_var = data.iloc[:, 0].values.reshape(-1, 1)
+    employment = data.iloc[:, 1].values.reshape(-1, 1)
+    x_train, x_test, y_train, y_test = train_test_split(independent_var, employment, test_size=0.2)
     dic = {}
     for i in range(1, 10):
         model = DecisionTreeRegressor(max_depth=i)  # non-linear regression
@@ -76,13 +76,14 @@ def draw_diagram(data: dict[str, pd.DataFrame]) -> None:
     fig.show()
 
 
-def transform_data(covid: pd.DataFrame, employment: pd.DataFrame) -> dict[str, pd.DataFrame]:
+def transform_data(covid: pd.DataFrame, employment: pd.DataFrame, column1: str) -> \
+        dict[str, pd.DataFrame]:
     """transform dataframes of monthly covid 19 cases and differences in employment rate between
     consecutive months into a dictionary that maps province name to a dataframe that contains this
     province's monthly covid 19 cases and the difference in employment rate."""
     lst_province = {}
     for province in covid:
-        dic = {'cases': covid[province], 'employment rate': employment[province]}
+        dic = {column1: covid[province], 'employment rate': employment[province]}
         lst_province[province] = pd.DataFrame(dic)
     return lst_province
 
@@ -108,17 +109,28 @@ def prediction_employment_rate(filename: str) -> dict[str, dict[tuple[int, int],
     return prediction
 
 
-def main() -> dict[str, tuple[float, float]]:
+def main() -> dict[str, dict[str, tuple[float, float]]]:
     """the main function that performs all the actions and executes all the other functions"""
-    covid_data = covid19_cases.return_data('covid_19_cases.csv')
+    covid_data = covid19_cases.return_data_cases('covid_19_cases.csv')
     new_covid_data = pd.DataFrame(covid_data)
 
-    difference_employment_rate = prediction_employment_rate('employment_rate.csv')
+    tests_data = covid19_cases.return_data_tests('covid_19_cases.csv')
+    new_tests_data = pd.DataFrame(tests_data)
+
+    rates_data = covid19_cases.return_data_rate('covid_19_cases.csv')
+    new_rates_data = pd.DataFrame(rates_data)
+
+    difference_employment_rate = prediction_employment_rate('employment_combined.csv')
     new_difference_employment_rate = pd.DataFrame(difference_employment_rate)
 
-    comparison = transform_data(new_covid_data, new_difference_employment_rate)
-    draw_diagram(comparison)
-    return predict_lst(comparison)
+    comparison1 = transform_data(new_covid_data, new_difference_employment_rate, 'cases')
+    comparison2 = transform_data(new_tests_data, new_difference_employment_rate, 'tests')
+    comparison3 = transform_data(new_rates_data, new_difference_employment_rate, 'rates')
+    draw_diagram(comparison1)
+    a = predict_lst(comparison1)
+    b = predict_lst(comparison2)
+    c = predict_lst(comparison3)
+    return {'cases': a, 'tests': b, 'rates': c}
 
 
 if __name__ == '__main__':

@@ -218,6 +218,10 @@ def employment_rate_month_province(inputs: list[EmploymentData], month: int, yea
         - all(x in ['Ontario', 'British Columbia', 'Alberta', 'Manitoba', 'Saskatchewan',
                         'Prince Edward Island','New Brunswick', 'Nova Scotia', 'Quebec',
                         'Newfoundland and Labrador'] for x in provinces)
+
+    >>> e = load_data_employment('employment_combined.csv')
+    >>> employment_rate_month_province(e, 1, 2020, ['Alberta', 'Ontario'])
+    {'provinces': ['Alberta', 'Ontario'], 'employment_rate': [64.8, 61.6]}
     """
     rate_so_far = []
     for province in provinces:
@@ -233,6 +237,12 @@ def return_emp_for_map(month: int, year: int) -> dict[str, list]:
     Precondition:
         - month in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
         - year in [2020, 2021]
+
+    >>> e = load_data_employment('employment_combined.csv')
+    >>> return_emp_for_map(1, 2020)
+    {'provinces': ['Ontario', 'British Columbia', 'Alberta', 'Manitoba', 'Saskatchewan', \
+'Prince Edward Island', 'New Brunswick', 'Nova Scotia', 'Quebec', 'Newfoundland and Labrador'], \
+'employment_rate': [61.6, 61.8, 64.8, 63.3, 64.5, 62.0, 56.5, 57.2, 61.7, 50.2]}
     """
     e = load_data_employment('employment_combined.csv')
     provinces = ['Ontario', 'British Columbia', 'Alberta', 'Manitoba', 'Saskatchewan',

@@ -10,6 +10,7 @@ whether as given or with any changes, are expressly prohibited.
 This file is Copyright (c) 2021 Lemeng Dai, Arthur Iliescu, Jiaxin Li, Maisarah Zulkefli.
 """
 import prediction
+import visualization
 import pprint
 
 if __name__ == '__main__':

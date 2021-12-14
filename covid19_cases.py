@@ -15,12 +15,15 @@ import csv
 class CasesData:
     """A bundle of data on covid-19 for each province.
     Instance Attributes:
-        - province_id: the integer id for the province
         - province_name: the name of the province
         - date: the time of the data entry
         - number_confirmed: the number of confirmed covid-19 cases
         - number_total: the number of total covid-19 cases
         - number_today: the number of covid-19 cases for the date
+        - rate_total: case rate per one hundred thousand population,"Calculated by the
+            total number of cases for a province divided by the population of that 
+            province [(numtotal/population) x100,000]
+        
     Representation Invariants:
         - province_id in [35, 59, 24, 48, 43, 17, 61, 62, 12, 60, 99, 46, 47, 11]
         - province_name in ['Alberta', 'Ontario', 'Quebec', 'British Columbia', 'Manitoba', \

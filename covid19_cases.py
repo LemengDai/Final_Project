@@ -157,12 +157,74 @@ def total_cases_per_years(inputs: list[CasesData], months: list[int], years: lis
     return province_cases_so_far
 
 
+def average_rate_per_month(inputs: list[CasesData], month: int, year: int, province: str) -> float:
+    """Return the average of sum of rate_total in a month of a certain year for the given province.
+
+    Preconditions:
+        - month in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+        - year in [2020, 2021]
+        - province in ['Ontario', 'British Columbia', 'Alberta', 'Manitoba', 'Saskatchewan',
+        'Prince Edward Island', 'New Brunswick', 'Nova Scotia', 'Quebec',
+        'Newfoundland and Labrador']
+    """
+    rate_so_far = 0
+    length = 0
+    for row in inputs:
+        if row.province_name == province and row.date.month == month and row.date.year == year:
+            rate_so_far = rate_so_far + row.rate_total
+            length = length + 1
+
+    return rate_so_far / length
+
+
+def rate_per_month_province(inputs: list[CasesData], months: list[int], years: list[int],
+                            province: str) -> dict[tuple[int, int], float]:
+    """Return a dictionary matching the month in a calendar year to the average rate in that
+     month for province.
+
+    Preconditions:
+        - all(month in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] for month in months)
+        - all(year in [2020, 2021] for year in years)
+        - province in ['Ontario', 'British Columbia', 'Alberta', 'Manitoba', 'Saskatchewan',
+        'Prince Edward Island', 'New Brunswick', 'Nova Scotia', 'Quebec',
+        'Newfoundland and Labrador']
+    """
+    dict_so_far = {}
+    for year in years:
+        for month in months:
+            if year == 2021 and month != 12:
+                rate = average_rate_per_month(inputs, month, year, province)
+                dict_so_far[(year, month)] = rate
+            elif year == 2020:
+                rate = average_rate_per_month(inputs, month, year, province)
+                dict_so_far[(year, month)] = rate
+    return dict_so_far
+
+
+def rate_per_years(inputs: list[CasesData], months: list[int], years: list[int],
+                   provinces: list[str]) -> dict[str, dict[tuple[int, int], float]]:
+    """Return the Provinces mapped to the years mapped to the total new cases per month.
+
+    Preconditions:
+        - all(month in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] for month in months)
+        - all(year in [2020, 2021] for year in years)
+        - all(province in ['Ontario', 'British Columbia', 'Alberta', 'Manitoba', 'Saskatchewan',
+        'Prince Edward Island', 'New Brunswick', 'Nova Scotia', 'Quebec',
+        'Newfoundland and Labrador'] for province in provinces)
+    """
+    province_cases_so_far = {}
+    for province in provinces:
+        a = rate_per_month_province(inputs, months, years, province)
+        province_cases_so_far[province] = a
+    return province_cases_so_far
+
+
 def cases_map_provinces(inputs: list[CasesData], month: int, year: int, provinces: list[str])\
         -> dict[str, list]:
     """Return a dictionary where 'provinces' mapped to provinces and 'cases' mapped to the list of
     new cases for respective provinces in the given month of the given year.
 
-    Precondition:
+    Preconditions:
         - month in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
         - year in [2020, 2021]
         - all(x in ['Ontario', 'British Columbia', 'Alberta', 'Manitoba', 'Saskatchewan',
@@ -181,7 +243,7 @@ def return_case_for_map(month: int, year: int) -> dict[str, list]:
     """Return a dictionary where 'provinces' mapped to provinces and 'cases' mapped to the list of
     new cases for respective provinces in the given month of the given year.
 
-    Precondition:
+    Preconditions:
         - month in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
         - year in [2020, 2021]
     """
@@ -190,6 +252,7 @@ def return_case_for_map(month: int, year: int) -> dict[str, list]:
                  'Prince Edward Island', 'New Brunswick', 'Nova Scotia', 'Quebec',
                  'Newfoundland and Labrador']
     return cases_map_provinces(e, month, year, provinces)
+
 
 
 if __name__ == '__main__':

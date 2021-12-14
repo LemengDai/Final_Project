@@ -69,6 +69,20 @@ def return_data_tests(filename: str) -> dict[str, dict[tuple[int, int], int]]:
     return data
 
 
+def return_data_rate(filename: str) -> dict[str, dict[tuple[int, int], float]]:
+    """A function to run and return the data for the filename.
+    """
+    lst_provinces = ['Ontario', 'British Columbia', 'Alberta', 'Manitoba', 'Saskatchewan',
+                     'Prince Edward Island', 'New Brunswick', 'Nova Scotia', 'Quebec',
+                     'Newfoundland and Labrador']
+
+    lst_years = [2020, 2021]
+    lst_months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+    inputs = load_data(filename)
+    data = rate_per_years(inputs, lst_months, lst_years, lst_provinces)
+    return data
+
+
 def load_data(filename: str) -> list[CasesData]:
     """Return a list containing the data for each entry in the file
     """

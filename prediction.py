@@ -58,7 +58,7 @@ def predict_lst(data: dict[str, pd.DataFrame]) -> dict[str, tuple[float, float]]
     return dic
 
 
-def draw_diagram(data: dict[str, pd.DataFrame]) -> None:
+def draw_diagram1(data: dict[str, pd.DataFrame]) -> None:
     """draw a scatter diagram to visualize the dataset with the number of covid 19 cases as
     independent variable and difference of employment rate as dependent variable for each province.
     """
@@ -72,6 +72,44 @@ def draw_diagram(data: dict[str, pd.DataFrame]) -> None:
 
     fig.update_layout(title_text="Relationship between the number of covid 19 cases and "
                                  "the difference of employment rate in Canadian provinces")
+
+    fig.show()
+
+
+def draw_diagram2(data: dict[str, pd.DataFrame]) -> None:
+    """draw a scatter diagram to visualize the dataset with the number of covid 19 cases as
+    independent variable and difference of employment rate as dependent variable for each province.
+    """
+    fig = make_subplots(
+        rows=3, cols=4,
+        subplot_titles=list(data),
+        x_title='number of covid 19 tests', y_title='difference in employment rate (%)')
+    for i, df in enumerate(data.values()):
+        fig.add_trace(go.Scatter(x=df['tests'], y=df['employment rate'], mode='markers'),
+                      row=(i // 4 + 1), col=(i % 4 + 1))
+
+    fig.update_layout(title_text="Relationship between the number of covid 19 tests issued and "
+                                 "the difference of employment rate in Canadian provinces")
+
+    fig.show()
+
+
+def draw_diagram3(data: dict[str, pd.DataFrame]) -> None:
+    """draw a scatter diagram to visualize the dataset with the number of covid 19 cases as
+    independent variable and difference of employment rate as dependent variable for each province.
+    """
+    fig = make_subplots(
+        rows=3, cols=4,
+        subplot_titles=list(data),
+        x_title='rate of total covid 19 cases to the total population',
+        y_title='difference in employment rate (%)')
+    for i, df in enumerate(data.values()):
+        fig.add_trace(go.Scatter(x=df['rates'], y=df['employment rate'], mode='markers'),
+                      row=(i // 4 + 1), col=(i % 4 + 1))
+
+    fig.update_layout(title_text="Relationship between the rate of total covid 19 cases to the "
+                                 "total population and the difference of employment rate in"
+                                 "Canadian provinces")
 
     fig.show()
 
@@ -126,7 +164,9 @@ def main() -> dict[str, dict[str, tuple[float, float]]]:
     comparison1 = transform_data(new_covid_data, new_difference_employment_rate, 'cases')
     comparison2 = transform_data(new_tests_data, new_difference_employment_rate, 'tests')
     comparison3 = transform_data(new_rates_data, new_difference_employment_rate, 'rates')
-    draw_diagram(comparison1)
+    draw_diagram1(comparison1)
+    draw_diagram2(comparison2)
+    draw_diagram3(comparison3)
     a = predict_lst(comparison1)
     b = predict_lst(comparison2)
     c = predict_lst(comparison3)

@@ -110,10 +110,10 @@ def prediction_employment_rate(filename: str) -> dict[str, dict[tuple[int, int],
 
 def main() -> dict[str, tuple[float, float]]:
     """the main function that performs all the actions and executes all the other functions"""
-    covid_data = covid19_cases.return_data('covid19-download.csv')
+    covid_data = covid19_cases.return_data('covid_19_cases.csv')
     new_covid_data = pd.DataFrame(covid_data)
 
-    difference_employment_rate = prediction_employment_rate('Employment combined.csv')
+    difference_employment_rate = prediction_employment_rate('employment_rate.csv')
     new_difference_employment_rate = pd.DataFrame(difference_employment_rate)
 
     comparison = transform_data(new_covid_data, new_difference_employment_rate)

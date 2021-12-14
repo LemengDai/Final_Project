@@ -220,7 +220,7 @@ def tests_per_month_province(inputs: list[CasesData], months: list[int], years: 
         - province in ['Alberta', 'Ontario', 'Quebec', 'British Columbia', 'Manitoba', \
                             'New Brunswick', 'Saskatchewan', 'Prince Edward Island', \
                             'Newfoundland and Labrador', 'Nova Scotia']
-     >>> method = [CasesData(province_name='Ontario', \
+    >>> method = [CasesData(province_name='Ontario', \
     date=datetime.date(2020, 1, 31), number_confirmed=40, number_total=40, number_today=40, \
     number_tests=20, rate_total=0.0)]
     >>> lst_months = [1]

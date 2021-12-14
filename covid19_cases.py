@@ -21,9 +21,9 @@ class CasesData:
         - number_total: the number of total covid-19 cases
         - number_today: the number of covid-19 cases for the date
         - rate_total: case rate per one hundred thousand population,"Calculated by the
-            total number of cases for a province divided by the population of that 
+            total number of cases for a province divided by the population of that
             province [(number_total/population) x100,000].
-        
+
     Representation Invariants:
         - province_id in [35, 59, 24, 48, 43, 17, 61, 62, 12, 60, 99, 46, 47, 11]
         - province_name in ['Alberta', 'Ontario', 'Quebec', 'British Columbia', 'Manitoba', \
@@ -97,10 +97,10 @@ def load_data(filename: str) -> list[CasesData]:
             if row[17] != '':
                 assert len(row) == 40, 'Expected every row to contain 40 elements.'
                 split_date = str.split(str(row[3]), '-')
-                new_inputs = CasesData(str(row[1]), datetime.date(int(split_date[0]), 
-                                                                  int(split_date[1]), 
-                                                                  int(split_date[2])), 
-                                       int(row[5]), int(row[8]), int(row[15]), int(row[10]), 
+                new_inputs = CasesData(str(row[1]), datetime.date(int(split_date[0]),
+                                                                  int(split_date[1]),
+                                                                  int(split_date[2])),
+                                       int(row[5]), int(row[8]), int(row[15]), int(row[10]),
                                        float(row[17]))
 
                 inputs_so_far.append(new_inputs)
@@ -290,10 +290,10 @@ def average_rate_per_month(inputs: list[CasesData], month: int, year: int, provi
             rate_so_far = rate_so_far + row.rate_total
             length = length + 1
 
-     if length == 0:
+    if length == 0:
         return 0
     else:
-        return rate_so_far / length
+        return round(rate_so_far / length, 2)
 
 
 def rate_per_month_province(inputs: list[CasesData], months: list[int], years: list[int],

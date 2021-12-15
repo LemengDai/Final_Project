@@ -1,5 +1,6 @@
 # Final_Project
-CSC110 Final Project: Pandemic impact on employment rates of Canadian Provinces and Territories//
+CSC110 Final Project: Pandemic impact on employment rates of Canadian Provinces and Territories
+
 **Instructions**
 1. Download the requirements.txt download all the modules that have been used in the project.
 2. Save all files in the same folder, marking the folder as route directory. 
